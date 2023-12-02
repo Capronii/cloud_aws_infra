@@ -6,7 +6,7 @@ Provisionar uma arquitetura na AWS utilizando o Terraform, que englobe o uso de 
 
 ## Desenho da arquitetura
 
-<img src="/img/Diagrama.png">
+<img src="/img/Diagrama.jpg">
 
 ## Explicando a arquitetura
 
