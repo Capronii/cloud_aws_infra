@@ -1,0 +1,16 @@
+# Arquivos de estado do Terraform
+*.tfstate
+.tfstate.
+terraform.tfstate
+terraform.tfstate.backup
+
+# Arquivos de configuração do ambiente
+*.tfvars
+*.tfplan
+override.tf
+override.tf.json
+
+# Diretórios e arquivos de cache/build
+.terraform
+.terraform.lock.hcl
+.terraformrc
