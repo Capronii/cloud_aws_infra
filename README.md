@@ -60,4 +60,15 @@ Importante ressaltar que a criação do bucket deve ser realizada diretamente no
 Uma possivel melhoria nesses valores seria fazer o uso de um RDS com maior definição de tamanho já que o criado é de 10 GB com backup de 5 dias, mas para o mundo real deveriamos rodar a aplicação por um tempo para detectar qual seria o melhor tamanho.
 O valor não é muito alto tendo em vista que o maior gasto é com o banco de dados em si.
 
+
+### Guia Utilização 
+1. *Pré-requisitos*: Verifique se o Terraform e a AWS CLI estão instalados.
+2. *Criação das Chaves de Acesso AWS*: Acesse o IAM na AWS, crie um novo usuário com acesso programático e anote as chaves de acesso.
+3. *Configuração da AWS CLI*: Use o comando aws configure para inserir suas credenciais e configurações regionais.
+4. *Criação do Bucket S3*: Crie um bucket S3 pelo dashboard da AWS para armazenar o estado do Terraform e atualize o nome do bucket no arquivo main.tf na parte inicial do codigo.
+5. *Inicialização do Terraform*: Prepare seu ambiente com terraform init.
+6. *Aplicação do Terraform*: Implemente a infraestrutura com terraform apply -auto-approve.
+7. *Validação*: Após a aplicação, use o link de output (link_to_docs) para acessar a documentação da aplicação e verificar se ela está funcionando corretamente.
+8. *Destruição da Infraestrutura*: Destrua a infraestrutura com terraform destroy -auto-approve.
+
 <img src="/img/custo.png">

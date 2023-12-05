@@ -7,15 +7,16 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "gcaproni-bucket"
+    bucket = "gcaproni-bucket" # Update this to your bucket name
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
 
   required_version = ">= 1.2.0"
 }
-
-
+##############################################################################################################
+                                # REMEMBRER TO CREATE BUCKET BEFORE APPLYING #
+##############################################################################################################
 data "aws_availability_zones" "available" {
   state = "available"
 }
@@ -67,6 +68,10 @@ resource "aws_subnet" "my_subnet2" {
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
+
+  tags = {
+    Name = "pub-subnet2"
+  }
 }
 
 #Private 1
@@ -99,7 +104,7 @@ resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0" # rota padrão para a internet
+    cidr_block = "0.0.0.0/0" 
     gateway_id = aws_internet_gateway.my_igw.id
   }
 
@@ -140,7 +145,7 @@ resource "aws_route_table" "my_private_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
   route {
-    cidr_block     = "0.0.0.0/0" # rota padrão para a internet
+    cidr_block     = "0.0.0.0/0" 
     nat_gateway_id = aws_nat_gateway.nat.id
   }
 
@@ -348,7 +353,7 @@ resource "aws_db_instance" "my_db_instance" {
   publicly_accessible = false
 }
 
-# AUTO SCALING GROUP ---------------------------------------------------------------------------------
+# AUTO SCALING GROUP 
 
 resource "aws_launch_template" "my_launch_template" {
   name_prefix   = "gcaproni-launch-template"
@@ -360,37 +365,26 @@ resource "aws_launch_template" "my_launch_template" {
     export DEBIAN_FRONTEND=noninteractive
 
     sudo apt -y remove needrestart
-    echo "fez o needrestart" >> app.log
     sudo apt-get update
-    echo "fez o update" >> app.log
     sudo apt-get install -y python3-pip python3-venv git
-    echo "fez o install de tudo" >> app.log
 
     # Criação do ambiente virtual e ativação
     python3 -m venv /home/ubuntu/myappenv
-    echo "criou o env" >> app.log
     source /home/ubuntu/myappenv/bin/activate
-    echo "ativou o env" >> app.log
 
     # Clonagem do repositório da aplicação
     git clone https://github.com/ArthurCisotto/aplicacao_projeto_cloud.git /home/ubuntu/myapp
-    echo "clonou o repo" >> app.log
 
     # Instalação das dependências da aplicação
     pip install -r /home/ubuntu/myapp/requirements.txt
-    echo "instalou os requirements" >> app.log
-
     sudo apt-get install -y uvicorn
-    echo "instalou o uvicorn" >> app.log
  
     # Configuração da variável de ambiente para o banco de dados
     export DATABASE_URL="mysql+pymysql://dbadmin:secretpassword@${aws_db_instance.my_db_instance.endpoint}/caproni_db"
-    echo "exportou o url" >> app.log
 
     cd /home/ubuntu/myapp
     # Inicialização da aplicação
     uvicorn main:app --host 0.0.0.0 --port 80 
-    echo "inicializou" >> app.log
   EOF
   )
 
