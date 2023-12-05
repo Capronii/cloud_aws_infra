@@ -60,6 +60,7 @@ Importante ressaltar que a criação do bucket deve ser realizada diretamente no
 Uma possivel melhoria nesses valores seria fazer o uso de um RDS com maior definição de tamanho já que o criado é de 10 GB com backup de 5 dias, mas para o mundo real deveriamos rodar a aplicação por um tempo para detectar qual seria o melhor tamanho.
 O valor não é muito alto tendo em vista que o maior gasto é com o banco de dados em si.
 
+<img src="/img/custo.png">
 
 ### Guia Utilização 
 1. *Pré-requisitos*: Verifique se o Terraform e a AWS CLI estão instalados.
@@ -71,4 +72,3 @@ O valor não é muito alto tendo em vista que o maior gasto é com o banco de da
 7. *Validação*: Após a aplicação, use o link de output (link_to_docs) para acessar a documentação da aplicação e verificar se ela está funcionando corretamente.
 8. *Destruição da Infraestrutura*: Destrua a infraestrutura com terraform destroy -auto-approve.
 
-<img src="/img/custo.png">
